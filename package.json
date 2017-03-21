@@ -1,6 +1,6 @@
 {
   "name": "dush-methods",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Plugin for `dush` and anything based on it. It adds helper `.define` and `.delegate` methods",
   "repository": "tunnckoCore/dush-methods",
   "author": "Charlike Mike Reagent <@tunnckoCore> (https://i.am.charlike.online)",
