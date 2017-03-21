@@ -40,6 +40,13 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "nyc": {
+    "check-coverage": true,
+    "statements": 100,
+    "functions": 100,
+    "branches": 100,
+    "lines": 100
+  },
   "verb": {
     "run": true,
     "toc": {
@@ -55,12 +62,14 @@
       "list": [
         "always-done",
         "minibase",
-        "try-catch-core"
+        "try-catch-core",
+        "gruu-api",
+        "dush",
+        "dush-tap-report",
+        "dush-no-chaining",
+        "gibon"
       ],
-      "highlight": "always-done"
-    },
-    "lint": {
-      "reflinks": true
+      "highlight": "dush-tap-report"
     },
     "reflinks": [
       "always-done",
@@ -72,14 +81,12 @@
       "once",
       "standard-version",
       "verb",
-      "verb-generate-readme"
-    ]
-  },
-  "nyc": {
-    "check-coverage": true,
-    "statements": 100,
-    "functions": 100,
-    "branches": 100,
-    "lines": 100
+      "verb-generate-readme",
+      "dush",
+      "minibase"
+    ],
+    "lint": {
+      "reflinks": true
+    }
   }
 }

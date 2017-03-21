@@ -10,12 +10,15 @@
 [![dependency status][david-img]][david-url]
 [![paypal donate][paypalme-img]][paypalme-url] 
 
-You might also be interested in [always-done](https://github.com/hybridables/always-done#readme).
+You might also be interested in [dush-tap-report](https://github.com/tunnckocore/dush-tap-report#readme).
 
 ## Table of Contents
 - [Install](#install)
 - [Usage](#usage)
 - [API](#api)
+  * [methods()](#methods)
+  * [.define](#define)
+  * [.delegate](#delegate)
 - [Related](#related)
 - [Contributing](#contributing)
 - [Building docs](#building-docs)
@@ -47,8 +50,87 @@ const dushMethods = require('dush-methods')
 
 ## API
 
+### [methods()](index.js#L32)
+> Plugin for [dush][], [minibase][], [base][] and anything based on them. It adds `.define` and `.delegate` methods on the `app` instance.
+
+* `returns` **{Function}**: a plugin function that should be passed to `.use` method  
+
+**Example**
+
+```js
+const dush = require('dush')
+const methods = require('dush-methods')
+
+const app = dush()
+app.use(methods())
+
+console.log(app.define) // => function
+console.log(app.delegate) // => function
+```
+
+### [.define](index.js#L64)
+> Add non-enumerable `prop` with a `value`. It also emits a `define` event.
+
+**Params**
+
+* `prop` **{String}**: a name of the property    
+* `value` **{any}**: any type of value    
+* `returns` **{Object}**: instance for chaining  
+
+**Example**
+
+```js
+app.define('foo', 123)
+console.log(app.foo) // => 123
+
+app.on('define', (key, value) => {
+  console.log('key:', key) // => 'key: foo'
+  console.log('value:', value) // => 'value: 123'
+})
+
+// or inside plugin
+app.use((app) => {
+  app.define('hello', (place) => console.log(`Hello ${place}!`))
+})
+
+app.hello('world') // => 'Hello world!'
+```
+
+### [.delegate](index.js#L100)
+> Calls the `.define` method for each property on `props` object. It also emits `delegate` event.
+
+**Params**
+
+* `props` **{Object}**: an object of properties    
+* `returns` **{Object}**: instance for chaining  
+
+**Example**
+
+```js
+// called two times
+app.on('define', (key, value) => {
+  console.log(key) // => `foo`, then `qux`
+  console.log(value) // => `bar`, then `123`
+})
+
+// called one time
+app.on('delegate', (props) => {
+  console.log('props:', props) // => { foo: 'bar', qux: 123 }
+})
+
+app.delegate({
+  foo: 'bar',
+  qux: 123
+})
+```
+
 ## Related
 - [always-done](https://www.npmjs.com/package/always-done): Handle completion and errors with elegance! Support for streams, callbacks, promises, child processes, async/await and sync functions. A drop-in replacement… [more](https://github.com/hybridables/always-done#readme) | [homepage](https://github.com/hybridables/always-done#readme "Handle completion and errors with elegance! Support for streams, callbacks, promises, child processes, async/await and sync functions. A drop-in replacement for [async-done][] - pass 100% of its tests plus more")
+- [dush-no-chaining](https://www.npmjs.com/package/dush-no-chaining): A plugin that removes the emitter methods chaining support for `dush`, `base`, `minibase` or anything based on them | [homepage](https://github.com/tunnckocore/dush-no-chaining#readme "A plugin that removes the emitter methods chaining support for `dush`, `base`, `minibase` or anything based on them")
+- [dush-tap-report](https://www.npmjs.com/package/dush-tap-report): A simple TAP report producer based on event system. A plugin for `dush` event emitter or anything based on it | [homepage](https://github.com/tunnckocore/dush-tap-report#readme "A simple TAP report producer based on event system. A plugin for `dush` event emitter or anything based on it")
+- [dush](https://www.npmjs.com/package/dush): Microscopic & functional event emitter in ~260 bytes, extensible through plugins. | [homepage](https://github.com/tunnckocore/dush#readme "Microscopic & functional event emitter in ~260 bytes, extensible through plugins.")
+- [gibon](https://www.npmjs.com/package/gibon): Functional client-side router in ~570 bytes, built on HTML5 History API | [homepage](https://github.com/tunnckocore/gibon#readme "Functional client-side router in ~570 bytes, built on HTML5 History API")
+- [gruu-api](https://www.npmjs.com/package/gruu-api): Core API for Gruu and Mukla - Minimal, modern and extensible test runners | [homepage](https://github.com/tunnckocore/gruu-api#readme "Core API for Gruu and Mukla - Minimal, modern and extensible test runners")
 - [minibase](https://www.npmjs.com/package/minibase): Minimalist alternative for Base. Build complex APIs with small units called plugins. Works well with most of the already existing… [more](https://github.com/node-minibase/minibase#readme) | [homepage](https://github.com/node-minibase/minibase#readme "Minimalist alternative for Base. Build complex APIs with small units called plugins. Works well with most of the already existing [base][] plugins.")
 - [try-catch-core](https://www.npmjs.com/package/try-catch-core): Low-level package to handle completion and errors of sync or asynchronous functions, using [once][] and [dezalgo][] libs. Useful for and… [more](https://github.com/hybridables/try-catch-core#readme) | [homepage](https://github.com/hybridables/try-catch-core#readme "Low-level package to handle completion and errors of sync or asynchronous functions, using [once][] and [dezalgo][] libs. Useful for and used in higher-level libs such as [always-done][] to handle completion of anything.")
 
@@ -94,8 +176,21 @@ Copyright © 2016-2017, [Charlike Mike Reagent](https://i.am.charlike.online). R
 
 ***
 
-_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.4.3, on March 21, 2017._  
+_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.4.3, on March 22, 2017._  
 _Project scaffolded using [charlike][] cli._
+
+[always-done]: https://github.com/hybridables/always-done
+[async-done]: https://github.com/gulpjs/async-done
+[base]: https://github.com/node-base/base
+[charlike]: https://github.com/tunnckocore/charlike
+[commitizen]: https://github.com/commitizen/cz-cli
+[dezalgo]: https://github.com/npm/dezalgo
+[dush]: https://github.com/tunnckocore/dush
+[minibase]: https://github.com/node-minibase/minibase
+[once]: https://github.com/isaacs/once
+[standard-version]: https://github.com/conventional-changelog/standard-version
+[verb-generate-readme]: https://github.com/verbose/verb-generate-readme
+[verb]: https://github.com/verbose/verb
 
 [license-url]: https://www.npmjs.com/package/dush-methods
 [license-img]: https://img.shields.io/npm/l/dush-methods.svg
@@ -124,13 +219,3 @@ _Project scaffolded using [charlike][] cli._
 [paypalme-url]: https://www.paypal.me/tunnckoCore
 [paypalme-img]: https://img.shields.io/badge/paypal-donate-brightgreen.svg
 
-[always-done]: https://github.com/hybridables/always-done
-[async-done]: https://github.com/gulpjs/async-done
-[base]: https://github.com/node-base/base
-[charlike]: https://github.com/tunnckocore/charlike
-[commitizen]: https://github.com/commitizen/cz-cli
-[dezalgo]: https://github.com/npm/dezalgo
-[once]: https://github.com/isaacs/once
-[standard-version]: https://github.com/conventional-changelog/standard-version
-[verb-generate-readme]: https://github.com/verbose/verb-generate-readme
-[verb]: https://github.com/verbose/verb
