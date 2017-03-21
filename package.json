@@ -34,7 +34,20 @@
   "files": [
     "index.js"
   ],
-  "keywords": [],
+  "keywords": [
+    "baseplugin",
+    "define",
+    "delegate",
+    "dush",
+    "dushplugin",
+    "enum",
+    "enumerable",
+    "helper",
+    "methods",
+    "micro",
+    "minibaseplugin",
+    "plugins"
+  ],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
