@@ -31,6 +31,11 @@
 
 module.exports = function dushMethods () {
   return function dushMethods (app) {
+    /* istanbul ignore next */
+    if (app.isRegistered && app.isRegistered('dush-methods')) {
+      return
+    }
+
     /**
      * > Add non-enumerable `prop` with a `value`.
      * It also emits a `define` event.
