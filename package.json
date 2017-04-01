@@ -73,14 +73,15 @@
     ],
     "related": {
       "list": [
-        "always-done",
-        "minibase",
-        "try-catch-core",
         "gruu-api",
         "dush",
         "dush-tap-report",
         "dush-no-chaining",
-        "gibon"
+        "gibon",
+        "dush-promise",
+        "dush-router",
+        "dush-options",
+        "dush-methods"
       ],
       "highlight": "dush-tap-report"
     },
